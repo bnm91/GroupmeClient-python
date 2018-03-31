@@ -1,0 +1,6 @@
+*.config
+config.py
+.vscode/launch.json
+.vscode/settings.json
+*.pyc
+env/
