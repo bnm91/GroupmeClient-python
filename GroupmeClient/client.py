@@ -76,7 +76,7 @@ class Client(object):
 
 
 
-# # help(groups.getGroups())
+# # # help(groups.getGroups())
 # client = Client(config['accessToken'])
-# print(client.makeCall('groups', 'createGroup', name='Client Test Group'))
+# print(client.makeCall('groups', 'createGroup', name='Client Test Group2'))
 
