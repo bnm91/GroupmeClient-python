@@ -44,23 +44,34 @@ class Members:
         r = requests.post(url, json = load)
         return self.parse_response_from_json(r)
 
-    def remove(self, membership_id):
+    def remove(self, **kwargs):
         '''
         Remove a member from a grup
         NOTE: Creator cannot be removed
         Params
             membership_id: string — Please note that this isn't the same as the user ID. In the members key in the group JSON, this is the id value, not the user_id.
         '''
+        membership_id = 0
+        for key, value in kwargs.items():
+            if key == 'membership_id':
+                membership_id = value
+        
         url = self.URL_BASE + '/groups/' + str(self.groupId) + '/members/' + str(membership_id) + '/remove' + self.TOKEN_QUERY_STRING
         r = requests.post(url)
         return self.parse_response_from_json(r)
     
-    def update(self, nickname):
+    # def update(self, nickname):
+    def update(self, **kwargs):
         '''
         Update YOUR nickname in a group. The nickname must be between 1 and 50 chars
         Params
             nickname: string - YOUR new nickname
         '''
+        nickname = ''
+        for key, value in kwargs.items():
+            if key == 'nickname':
+                nickname = value
+
         load = {}
         load['membership'] =  {'nickname': nickname}
         url = self.URL_BASE + '/groups/' + str(self.groupId) + '/memberships/update' + self.TOKEN_QUERY_STRING
