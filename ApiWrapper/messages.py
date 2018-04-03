@@ -98,7 +98,12 @@ class Messages:
         r = requests.post(url, json = load)
         return self.parse_response_from_json(r)
 
-    def like(self, message_id):
+    # def like(self, message_id):
+    def like(self, **kwargs):
+        message_id = 0
+        for key, value in kwargs.items():
+            if key == 'message_id':
+                message_id = value
         url = self.URL_BASE + '/messages/' + str(self.groupId) + '/' + str(message_id) + '/like' + self.TOKEN_QUERY_STRING
         r = requests.post(url)
         return self.parse_response_from_json(r)

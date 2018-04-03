@@ -30,8 +30,13 @@ class Groups:
         url = self.URL_BASE + '/groups/former' + self.TOKEN_QUERY_STRING
         return create_response(url)
 
-    def getGroup(self, id):
+    # def getGroup(self, id):
+    def getGroup(self, **kwargs):
         ''' Gets a single group by its id'''
+        id = 0
+        for key, value in kwargs.items():
+            if key == 'id':
+                id = value
         url = self.URL_BASE + '/groups/' + str(id) + self.TOKEN_QUERY_STRING
         print(url)
         return create_response(url)
@@ -62,7 +67,8 @@ class Groups:
         else:
             return 'No valid name parameter provided'
 
-    def updateGroup(self, id, **kwargs):
+    # def updateGroup(self, id, **kwargs):
+    def updateGroup(self, **kwargs):
         ''' Updates specified group
             HTTP POST
             Params
@@ -75,8 +81,11 @@ class Groups:
             Returns POST response
         '''
         load = {}
+        id = 0
         for key, value in kwargs.items():
-            if key == 'name':
+            if key == 'id':
+                id = value
+            elif key == 'name':
                 load['name'] = value
             elif key == 'description':
                 load['description'] = value
@@ -88,11 +97,15 @@ class Groups:
         r = requests.post(url, json = load)
         return parse_response_from_json(r)
 
-    def destroyGroup(self, id):
+    def destroyGroup(self, **kwargs):
         ''' Destroys specified group
             Only availabe to groups creator
             HTTP POST
             Returns POST response'''
+        id = 0
+        for key, value in kwargs.items():
+            if key  == 'id':
+                id = value
         url = self.URL_BASE + '/groups/' + str(id) + '/destroy' + self.TOKEN_QUERY_STRING
         r = requests.post(url)
         return parse_response_from_json(r)
