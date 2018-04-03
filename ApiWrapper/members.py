@@ -1,16 +1,11 @@
 import requests
-import sys
-sys.path.append('../config.py')
-from config import config
-
-URL_BASE = 'https://api.groupme.com/v3'
-TOKEN_QUERY_STRING = '?token=' + config['accessToken']
 
 class Members:
-    groupId = 0
 
-    def __init__(self, groupId):
+    def __init__(self, groupmeAccessToken, groupId):
         self.groupId = groupId
+        self.URL_BASE = 'https://api.groupme.com/v3'
+        self.TOKEN_QUERY_STRING = '?token=' + groupmeAccessToken
     
     def add(self, **kwargs):
         '''
@@ -45,7 +40,7 @@ class Members:
                 if hasNickname and hasRequiredFields:
                     array.append(member)
         load['members'] = array
-        url = URL_BASE + '/groups/' + str(self.groupId) + '/members/add' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(self.groupId) + '/members/add' + self.TOKEN_QUERY_STRING
         r = requests.post(url, json = load)
         return self.parse_response_from_json(r)
 
@@ -56,7 +51,7 @@ class Members:
         Params
             membership_id: string — Please note that this isn't the same as the user ID. In the members key in the group JSON, this is the id value, not the user_id.
         '''
-        url = URL_BASE + '/groups/' + str(self.groupId) + '/members/' + str(membership_id) + '/remove' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(self.groupId) + '/members/' + str(membership_id) + '/remove' + self.TOKEN_QUERY_STRING
         r = requests.post(url)
         return self.parse_response_from_json(r)
     
@@ -68,7 +63,7 @@ class Members:
         '''
         load = {}
         load['membership'] =  {'nickname': nickname}
-        url = URL_BASE + '/groups/' + str(self.groupId) + '/memberships/update' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(self.groupId) + '/memberships/update' + self.TOKEN_QUERY_STRING
         r = requests.post(url, json = load)
         return self.parse_response_from_json(r)
 

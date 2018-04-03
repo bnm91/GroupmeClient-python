@@ -1,15 +1,11 @@
 import requests
-import sys
-sys.path.append('../config.py')
-from config import config
-
-URL_BASE = 'https://api.groupme.com/v3'
-TOKEN_QUERY_STRING = '?token=' + config['accessToken']
 
 class Groups:
 
-    def __init__(self):
-        pass
+    def __init__(self, groupmeAccesstoken):
+        self.accessToken = groupmeAccesstoken
+        self.URL_BASE = 'https://api.groupme.com/v3'
+        self.TOKEN_QUERY_STRING = '?token=' + self.accessToken
 
 
     def getGroups(self, **kwargs):
@@ -25,18 +21,18 @@ class Groups:
                 page = value
             elif key == 'per_page':
                 per_page = value
-        url = URL_BASE + '/groups' + TOKEN_QUERY_STRING +  '&page=' + str(page) + '&per_page=' + str(per_page)
+        url = self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING +  '&page=' + str(page) + '&per_page=' + str(per_page)
         print(url)
         return create_response(url)
     
     def getFormer(self):
         ''' Gets former groups'''
-        url = URL_BASE + '/groups/former' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/former' + self.TOKEN_QUERY_STRING
         return create_response(url)
 
     def getGroup(self, id):
         ''' Gets a single group by its id'''
-        url = URL_BASE + '/groups/' + str(id) + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(id) + self.TOKEN_QUERY_STRING
         print(url)
         return create_response(url)
 
@@ -60,7 +56,7 @@ class Groups:
                 load['image_url'] = value
             elif key == 'share':
                 load['share'] = value
-        url = URL_BASE + '/groups' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING
         if hasValidParam:
             requests.post(url, json = load)
         else:
@@ -88,7 +84,7 @@ class Groups:
                 load['image_url'] = value
             elif key == 'share':
                 load['share'] = value
-        url = URL_BASE + '/groups/' + str(id) + '/update' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(id) + '/update' + self.TOKEN_QUERY_STRING
         r = requests.post(url, json = load)
         return parse_response_from_json(r)
 
@@ -97,7 +93,7 @@ class Groups:
             Only availabe to groups creator
             HTTP POST
             Returns POST response'''
-        url = URL_BASE + '/groups/' + str(id) + '/destroy' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(id) + '/destroy' + self.TOKEN_QUERY_STRING
         r = requests.post(url)
         return parse_response_from_json(r)
         

@@ -1,20 +1,15 @@
 import requests
-import sys
-sys.path.append('../config.py')
-from config import config
-
-URL_BASE = 'https://api.groupme.com/v3'
-TOKEN_QUERY_STRING = '?token=' + config['accessToken']
 
 class Users:
-    groupId = 0
 
-    def __init__(self):
-        pass
+    def __init__(self, groupmeAccessToken):
+        self.accessToken = groupmeAccessToken
+        self.URL_BASE = 'https://api.groupme.com/v3'
+        self.TOKEN_QUERY_STRING = '?token=' + groupmeAccessToken
         
     def get(self):
         ''' Get details about the authenticated user'''
-        url = URL_BASE + '/users/me' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/users/me' + self.TOKEN_QUERY_STRING
         print(url)
         return create_response(url)
 

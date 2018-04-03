@@ -1,16 +1,11 @@
 import requests
-import sys
-sys.path.append('../config.py')
-from config import config
-
-URL_BASE = 'https://api.groupme.com/v3'
-TOKEN_QUERY_STRING = '?token=' + config['accessToken']
 
 class Messages:
-    groupId = 0
 
-    def __init__(self, groupId):
+    def __init__(self, groupmeAccessToken, groupId):
         self.groupId = groupId
+        self.URL_BASE = 'https://api.groupme.com/v3'
+        self.TOKEN_QUERY_STRING = '?token=' + groupmeAccessToken
 
     def get(self, **kwargs):
         '''
@@ -37,7 +32,7 @@ class Messages:
                 query_string += '&limit='
                 query_string += str(value)
         
-        url = URL_BASE + '/groups/' + str(self.groupId) + '/messages' + TOKEN_QUERY_STRING + query_string
+        url = self.URL_BASE + '/groups/' + str(self.groupId) + '/messages' + self.TOKEN_QUERY_STRING + query_string
         r = requests.get(url)
         return self.parse_response_from_json(r)
 
@@ -99,12 +94,12 @@ class Messages:
                         array.append(attachment)
         message['attachments'] = array
         load['message'] = message
-        url = URL_BASE + '/groups/' + str(self.groupId) + '/messages' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(self.groupId) + '/messages' + self.TOKEN_QUERY_STRING
         r = requests.post(url, json = load)
         return self.parse_response_from_json(r)
 
     def like(self, message_id):
-        url = URL_BASE + '/messages/' + str(self.groupId) + '/' + str(message_id) + '/like' + TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/messages/' + str(self.groupId) + '/' + str(message_id) + '/like' + self.TOKEN_QUERY_STRING
         r = requests.post(url)
         return self.parse_response_from_json(r)
 
