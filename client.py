@@ -7,7 +7,7 @@ from ApiWrapper import users
 
 
 
-def Client(object):
+class Client(object):
 
     def __init__(self, groupmeAccessToken):
         self.accessToken = groupmeAccessToken
@@ -27,6 +27,20 @@ def Client(object):
             if self.groups is None:
                 self.groups = groups.Groups(self.accessToken)
             getattr(self.groups, call)(**kwargs)
+
+        if groupmeObject == 'members':
+            if self.members is None:
+                if kwargs.items()['groupId'] is not None:
+                    self.members = members.Members(self.accessToken, kwargs.items()['groupId'])
+            getattr(self.members, call)(**kwargs)
+            
+        if groupmeObject == 'messages':
+            if self.messages is None:
+                if kwargs.items()['groupId'] is not None:
+                    self.messages = messages.Messages(self.accessToken, kwargs.items()['groupId'])
+            getattr(self.messages, call)(**kwargs)
+            
+
 
 
 
