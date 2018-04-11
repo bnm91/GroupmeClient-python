@@ -1,5 +1,4 @@
 from .command import Command
-import requests
 
 class GetGroups(Command):
     ''' Gets all groups
