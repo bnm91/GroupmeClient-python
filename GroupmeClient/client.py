@@ -6,8 +6,6 @@ from .ApiWrapper import users
 
 
 
-
-
 class Client(object):
 
     def __init__(self, groupmeAccessToken):
