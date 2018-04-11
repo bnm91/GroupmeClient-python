@@ -1,7 +1,7 @@
-from ApiWrapper import groups
-from ApiWrapper import members
-from ApiWrapper import messages
-from ApiWrapper import users
+from .ApiWrapper import groups
+from .ApiWrapper import members
+from .ApiWrapper import messages
+from .ApiWrapper import users
 # from config import config
 
 
