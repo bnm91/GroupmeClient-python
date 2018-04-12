@@ -1,6 +1,6 @@
 from .command import Command
 
-class AddMember(Command):
+class Add(Command):
     '''
     Add a member the group
     Params
@@ -16,7 +16,7 @@ class AddMember(Command):
     def __init__(self, groupmeAccessToken, groupId, **kwargs):
         self.args = kwargs
         self.groupId = groupId
-        super(AddMember, self).__init__(groupmeAccessToken, 'POST')   
+        super(Add, self).__init__(groupmeAccessToken, 'POST')   
 
     def createUrl(self):
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/members/add' + self.TOKEN_QUERY_STRING
@@ -46,10 +46,10 @@ class AddMember(Command):
         return load
 
     def makeCall(self):
-        super(AddMember, self).makeCall()
+        super(Add, self).makeCall()
 
 
-class RemoveMember(Command):
+class Remove(Command):
     '''
     Remove a member from a grup
     NOTE: Creator cannot be removed
@@ -60,7 +60,7 @@ class RemoveMember(Command):
     def __init__(self, groupmeAccessToken, groupId, **kwargs):
         self.args = kwargs
         self.groupId = groupId
-        super(RemoveMember, self).__init__(groupmeAccessToken, 'POST')   
+        super(Remove, self).__init__(groupmeAccessToken, 'POST')   
     
     def createUrl(self):
         membership_id = 0
@@ -72,10 +72,10 @@ class RemoveMember(Command):
         return url
     
     def makeCall(self):
-        super(RemoveMember, self).makeCall()
+        super(Remove, self).makeCall()
 
 
-class UpdateMember(Command):
+class Update(Command):
     '''
     Update YOUR nickname in a group. The nickname must be between 1 and 50 chars
     Params
@@ -85,7 +85,7 @@ class UpdateMember(Command):
     def __init__(self, groupmeAccessToken, groupId, **kwargs):
         self.args = kwargs
         self.groupId = groupId
-        super(UpdateMember, self).__init__(groupmeAccessToken, 'POST')   
+        super(Update, self).__init__(groupmeAccessToken, 'POST')   
 
     def createUrl(self):
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/memberships/update' + self.TOKEN_QUERY_STRING
@@ -101,6 +101,6 @@ class UpdateMember(Command):
         return load
 
     def makeCall(self):
-        super(UpdateMember, self).makeCall()
+        super(Update, self).makeCall()
 
 
