@@ -46,7 +46,7 @@ class Add(Command):
         return load
 
     def makeCall(self):
-        super(Add, self).makeCall()
+        return super(Add, self).makeCall()
 
 
 class Remove(Command):
@@ -72,7 +72,7 @@ class Remove(Command):
         return url
     
     def makeCall(self):
-        super(Remove, self).makeCall()
+        return super(Remove, self).makeCall()
 
 
 class Update(Command):

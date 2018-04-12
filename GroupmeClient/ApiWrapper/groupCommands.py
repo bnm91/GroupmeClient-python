@@ -23,7 +23,7 @@ class GetAllGroups(Command):
         return url
 
     def makeCall(self):
-        super(GetAllGroups, self).makeCall()
+        return super(GetAllGroups, self).makeCall()
 
 
 class Former(Command):
@@ -37,7 +37,7 @@ class Former(Command):
         return self.URL_BASE + '/groups/former' + self.TOKEN_QUERY_STRING
     
     def makeCall(self):
-        super(Former, self).makeCall()
+        return super(Former, self).makeCall()
 
 
 class GetSingleGroup(Command):
@@ -56,7 +56,7 @@ class GetSingleGroup(Command):
         return url
     
     def makeCall(self):
-        super(GetSingleGroup, self).makeCall()
+        return super(GetSingleGroup, self).makeCall()
     
 class Create(Command):
     ''' Creates a new group
@@ -93,7 +93,7 @@ class Create(Command):
             return 'No valid name parameter provided'
         
     def makeCall(self):
-        super(Create, self).makeCall()
+        return super(Create, self).makeCall()
 
 class UpdateGroup(Command):
     ''' Updates specified group
@@ -133,7 +133,7 @@ class UpdateGroup(Command):
         return load
 
     def makeCall(self):
-        super(UpdateGroup, self).makeCall()
+        return super(UpdateGroup, self).makeCall()
 
 
 class DestroyGroup(Command):
@@ -155,7 +155,7 @@ class DestroyGroup(Command):
         return url
 
     def makeCall(self):
-        super(DestroyGroup, self).makeCall()
+        return super(DestroyGroup, self).makeCall()
 
 
 #TODO: investigate share tokens and implement this

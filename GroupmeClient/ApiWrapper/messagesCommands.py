@@ -35,7 +35,7 @@ class Get(Command):
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/messages' + self.TOKEN_QUERY_STRING + query_string
 
     def makeCall(self):
-        super(Get, self).makeCall()
+        return super(Get, self).makeCall()
 
 
 class Create(Command):
@@ -107,7 +107,7 @@ class Create(Command):
         return load
 
     def makeCall(self):
-        super(Create, self).makeCall()
+        return super(Create, self).makeCall()
 
 
 class Like(Command):
@@ -126,4 +126,4 @@ class Like(Command):
         return self.URL_BASE + '/messages/' + str(self.groupId) + '/' + str(message_id) + '/like' + self.TOKEN_QUERY_STRING
 
     def makeCall(self):
-        super(Like, self).makeCall()
+        return super(Like, self).makeCall()
