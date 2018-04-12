@@ -11,4 +11,4 @@ class Me(Command):
         return self.URL_BASE + '/users/me' + self.TOKEN_QUERY_STRING
     
     def makeCall(self):
-        super(Me, self).makeCall()
+        return super(Me, self).makeCall()
