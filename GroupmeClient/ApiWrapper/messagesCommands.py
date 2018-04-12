@@ -1,6 +1,6 @@
 from .command import Command
 
-class GetMessages(Command):
+class Get(Command):
     '''
     Retrieve messages for a group.
     By default, messages are returned in groups of 20, ordered by created_at descending. This can be raised or lowered by passing a limit parameter, up to a maximum of 100 messages.
@@ -14,7 +14,7 @@ class GetMessages(Command):
     def __init__(self, groupmeAccessToken, groupId, **kwargs):
         self.args = kwargs
         self.groupId = groupId
-        super(GetMessages, self).__init__(groupmeAccessToken, 'GET')   
+        super(Get, self).__init__(groupmeAccessToken, 'GET')   
 
     def createUrl(self):
         query_string = ''
@@ -35,10 +35,10 @@ class GetMessages(Command):
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/messages' + self.TOKEN_QUERY_STRING + query_string
 
     def makeCall(self):
-        super(GetMessages, self).makeCall()
+        super(Get, self).makeCall()
 
 
-class CreateMessage(Command):
+class Create(Command):
     '''
     Send a message to a group
     If you want to attach an image, you must first process it through groupme image service
@@ -71,7 +71,7 @@ class CreateMessage(Command):
     def __init__(self, groupmeAccessToken, groupId, **kwargs):
         self.args = kwargs
         self.groupId = groupId
-        super(CreateMessage, self).__init__(groupmeAccessToken, 'POST')  
+        super(Create, self).__init__(groupmeAccessToken, 'POST')  
 
     def createUrl(self):
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/messages' + self.TOKEN_QUERY_STRING 
@@ -107,16 +107,16 @@ class CreateMessage(Command):
         return load
 
     def makeCall(self):
-        super(CreateMessage, self).makeCall()
+        super(Create, self).makeCall()
 
 
-class LikeMessage(Command):
+class Like(Command):
     '''Likes specified message'''
 
     def __init__(self, groupmeAccessToken, groupId, **kwargs):
         self.args = kwargs
         self.groupId = groupId
-        super(LikeMessage, self).__init__(groupmeAccessToken, 'POST')  
+        super(Like, self).__init__(groupmeAccessToken, 'POST')  
 
     def createUrl(self):
         message_id = 0
@@ -126,4 +126,4 @@ class LikeMessage(Command):
         return self.URL_BASE + '/messages/' + str(self.groupId) + '/' + str(message_id) + '/like' + self.TOKEN_QUERY_STRING
 
     def makeCall(self):
-        super(LikeMessage, self).makeCall()
+        super(Like, self).makeCall()

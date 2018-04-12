@@ -1,6 +1,6 @@
 from .command import Command
 
-class GetGroups(Command):
+class GetAllGroups(Command):
     ''' Gets all groups
         Params 
             page: integer — Fetch a particular page of results. Defaults to 1.
@@ -9,7 +9,7 @@ class GetGroups(Command):
 
     def __init__(self, groupmeAccessToken, **kwargs):
         self.args = kwargs
-        super(GetGroups, self).__init__(groupmeAccessToken, 'GET')
+        super(GetAllGroups, self).__init__(groupmeAccessToken, 'GET')
     
     def createUrl(self):
         page =  1
@@ -23,29 +23,29 @@ class GetGroups(Command):
         return url
 
     def makeCall(self):
-        super(GetGroups, self).makeCall()
+        super(GetAllGroups, self).makeCall()
 
 
-class GetFormer(Command):
+class Former(Command):
     ''' Gets former groups'''
 
     def __init__(self, groupmeAccessToken, **kwargs):
         self.args = kwargs
-        super(GetFormer, self).__init__(groupmeAccessToken, 'GET')
+        super(Former, self).__init__(groupmeAccessToken, 'GET')
 
     def createUrl(self):
         return self.URL_BASE + '/groups/former' + self.TOKEN_QUERY_STRING
     
     def makeCall(self):
-        super(GetFormer, self).makeCall()
+        super(Former, self).makeCall()
 
 
-class GetGroup(Command):
+class GetSingleGroup(Command):
     ''' Gets a single group by its id'''
 
     def __init__(self, groupmeAccessToken, **kwargs):
         self.args = kwargs
-        super(GetGroup, self).__init__(groupmeAccessToken, 'GET')
+        super(GetSingleGroup, self).__init__(groupmeAccessToken, 'GET')
     
     def createUrl(self):
         id = 0
@@ -56,9 +56,9 @@ class GetGroup(Command):
         return url
     
     def makeCall(self):
-        super(GetGroup, self).makeCall()
+        super(GetSingleGroup, self).makeCall()
     
-class CreateGroup(Command):
+class Create(Command):
     ''' Creates a new group
         HTTP POST
         Params
@@ -69,7 +69,7 @@ class CreateGroup(Command):
     
     def __init__(self, groupmeAccessToken, **kwargs):
         self.args = kwargs
-        super(CreateGroup, self).__init__(groupmeAccessToken, 'POST')
+        super(Create, self).__init__(groupmeAccessToken, 'POST')
 
     def createUrl(self):
         return self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING
@@ -93,7 +93,7 @@ class CreateGroup(Command):
             return 'No valid name parameter provided'
         
     def makeCall(self):
-        super(CreateGroup, self).makeCall()
+        super(Create, self).makeCall()
 
 class UpdateGroup(Command):
     ''' Updates specified group
