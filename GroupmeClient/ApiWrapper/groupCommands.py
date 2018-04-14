@@ -52,7 +52,7 @@ class GetSingleGroup(Command):
         for key, value in self.args.items():
             if key == 'id':
                 id = value
-        url = self.URL_BASE + '/groups/' + str(id) + self.TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING + '&id=' + str(id)
         return url
     
     def makeCall(self):
@@ -66,6 +66,8 @@ class Create(Command):
         description: string — A subheading for the group. Maximum 255 characters
         image_url: string — GroupMe Image Service URL
         share: boolean — If you pass a true value for share, we'll generate a share URL. Anybody with this URL can join the group.'''
+
+    ##201 expected response code
     
     def __init__(self, groupmeAccessToken, **kwargs):
         self.args = kwargs
@@ -95,7 +97,7 @@ class Create(Command):
     def makeCall(self):
         return super(Create, self).makeCall()
 
-class UpdateGroup(Command):
+class Update(Command):
     ''' Updates specified group
         HTTP POST
         Params
@@ -110,7 +112,7 @@ class UpdateGroup(Command):
 
     def __init__(self, groupmeAccessToken, **kwargs):
         self.args = kwargs
-        super(UpdateGroup, self).__init__(groupmeAccessToken, 'POST')
+        super(Update, self).__init__(groupmeAccessToken, 'POST')
 
     def createUrl(self):
         id = 0
@@ -133,10 +135,10 @@ class UpdateGroup(Command):
         return load
 
     def makeCall(self):
-        return super(UpdateGroup, self).makeCall()
+        return super(Update, self).makeCall()
 
 
-class DestroyGroup(Command):
+class Destroy(Command):
     ''' Destroys specified group
         Only availabe to groups creator
         HTTP POST
@@ -144,7 +146,7 @@ class DestroyGroup(Command):
     
     def __init__(self, groupmeAccessToken, **kwargs):
         self.args = kwargs
-        super(DestroyGroup, self).__init__(groupmeAccessToken, 'POST')
+        super(Destroy, self).__init__(groupmeAccessToken, 'POST')
 
     def createUrl(self):
         id = 0
@@ -155,18 +157,18 @@ class DestroyGroup(Command):
         return url
 
     def makeCall(self):
-        return super(DestroyGroup, self).makeCall()
+        return super(Destroy, self).makeCall()
 
 
 #TODO: investigate share tokens and implement this
-class JoinGroup(Command):
+class Join(Command):
 
     def __init__(self, groupmeAccessToken, **kwargs):
         raise NotImplementedError
 
 
 #TODO: investigate how this works and implement
-class RejoinGroup(Command):
+class Rejoin(Command):
 
     def __init__(self, groupmeAccessToken, **kwargs):
         raise NotImplementedError

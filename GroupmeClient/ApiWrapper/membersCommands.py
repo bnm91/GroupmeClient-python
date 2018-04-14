@@ -19,29 +19,29 @@ class Add(Command):
         super(Add, self).__init__(groupmeAccessToken, 'POST')   
 
     def createUrl(self):
+        print(self.groupId)
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/members/add' + self.TOKEN_QUERY_STRING
     
     def createLoad(self):
         load = {}
+        members = []
+        array = []
         for key, value in self.args.items():
             if key == 'members':
                 members = value
-            
-            load = {}
-            array = []
-            hasNickname = False
-            hasRequiredFields = False
-            for member in members:
-                if 'nickname' in member:
-                    hasNickname = True
-                if 'user_id' in member:
-                    hasRequiredFields = True
-                if 'phone_number' in member:
-                    hasRequiredFields = True
-                if 'email' in member:
-                    hasRequiredFields = True
-                if hasNickname and hasRequiredFields:
-                    array.append(member)
+                hasNickname = False
+                hasRequiredFields = False
+                for member in members:
+                    if 'nickname' in member:
+                        hasNickname = True
+                    if 'user_id' in member:
+                        hasRequiredFields = True
+                    if 'phone_number' in member:
+                        hasRequiredFields = True
+                    if 'email' in member:
+                        hasRequiredFields = True
+                    if hasNickname and hasRequiredFields:
+                        array.append(member)
         load['members'] = array
         return load
 
