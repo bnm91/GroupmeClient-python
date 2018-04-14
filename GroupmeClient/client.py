@@ -36,7 +36,7 @@ class Client(object):
         '''
 
         if  groupmeObject == 'users':
-            return getattr('userCommands', call)(self.accessToken, **kwargs).makeCall()
+            return getattr(userCommands, call)(self.accessToken, **kwargs).makeCall()
         
         if groupmeObject == 'groups':
             groups_instance = getattr(groupCommands, call)(self.accessToken, **kwargs)
@@ -44,15 +44,15 @@ class Client(object):
 
         if groupmeObject == 'members':
             groupId = ''
-            if kwargs.items()['groupId'] is not None:
-                groupId = kwargs.items()['groupId']
-            return getattr('membersCommands', call)(self.accessToken, groupId, **kwargs).makeCall()
+            if kwargs['groupId'] is not None:
+                groupId = kwargs['groupId']
+            return getattr(membersCommands, call)(self.accessToken, **kwargs).makeCall()
             
         if groupmeObject == 'messages':
             groupId = ''
-            if kwargs.items()['groupId'] is not None:
-                groupId = kwargs.items()['groupId']
-            return getattr('messagesCommands', call)(self.accessToken, groupId, **kwargs).makeCall()
+            if kwargs['groupId'] is not None:
+                groupId = kwargs['groupId']
+            return getattr(messagesCommands, call)(self.accessToken, **kwargs).makeCall() #do not have to explicitly pass groupId b/c it's in kwargs under the same name
         
         return 'error'
             
