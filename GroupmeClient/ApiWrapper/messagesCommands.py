@@ -22,20 +22,6 @@ class Get(Command):
 
     def createUrl(self):
         query_string = ''
-        if all(prop is None for prop in [self.before_id, self.since_id, self.after_id, self.limit]):
-            for key, value in self.args.items():
-                if key == 'before_id':
-                    query_string += '&before_id='
-                    query_string += str(value)
-                elif key == 'since_id':
-                    query_string += '&since_id='
-                    query_string += str(value)
-                elif key == 'after_id':
-                    query_string += '&after_id='
-                    query_string += str(value)
-                elif key == 'limit':
-                    query_string += '&limit='
-                    query_string += str(value)
         if self.before_id is not None:
             query_string += '&before_id='
             query_string += str(self.before_id)
@@ -85,9 +71,12 @@ class Create(Command):
                 user_ids (array) - array of user ids of members being tagged
     '''
 
-    def __init__(self, groupmeAccessToken, groupId, **kwargs):
+    def __init__(self, groupmeAccessToken, groupId, source_guid=None, text=None, attachments=None, **kwargs):
         self.args = kwargs
         self.groupId = groupId
+        self.source_guid = source_guid
+        self.text = text
+        self.attachments = attachments
         super(Create, self).__init__(groupmeAccessToken, 'POST')  
 
     def createUrl(self):
@@ -97,28 +86,25 @@ class Create(Command):
         load = {}
         message = {}
         array = []
-        for key, value in self.args.items():
-            if key == 'source_guid':
-                message['source_guid'] = value
-            elif key == 'text':
-                message['text'] = value
-            elif key == 'attachments':
-                attachments = value
-                isValidAttachment = False
+        if self.source_guid is not None:
+            message['source_guid'] = self.source_guid
+        if self.text is not None:
+            message['text']  = self.text
+        if self.attachments is not None:
+            #TODO: each type is required to be a specific string, implement checks for that
+            #   see groupme api documentation
+            for attachment in self.attachments:
+                if 'type' in attachment and 'url' in attachment:
+                    isValidAttachment = True
+                if 'type' in attachment and 'name'  in attachment and 'lat' in attachment and 'lng' in attachment:
+                    isValidAttachment = True
+                if 'type' in attachment and 'token' in attachment:
+                    isValidAttachment = True
+                if 'type' in attachment and 'placeholder' in attachment and 'charmap' in attachment:
+                    isValidAttachment = True
+                if isValidAttachment:
+                    array.append(attachment)
 
-                #TODO: each type is required to be a specific string, implement checks for that
-                #   see groupme api documentation
-                for attachment in attachments:
-                    if 'type' in attachment and 'url' in attachment:
-                        isValidAttachment = True
-                    if 'type' in attachment and 'name'  in attachment and 'lat' in attachment and 'lng' in attachment:
-                        isValidAttachment = True
-                    if 'type' in attachment and 'token' in attachment:
-                        isValidAttachment = True
-                    if 'type' in attachment and 'placeholder' in attachment and 'charmap' in attachment:
-                        isValidAttachment = True
-                    if isValidAttachment:
-                        array.append(attachment)
         message['attachments'] = array
         load['message'] = message
         return load
@@ -130,17 +116,14 @@ class Create(Command):
 class Like(Command):
     '''Likes specified message'''
 
-    def __init__(self, groupmeAccessToken, groupId, **kwargs):
+    def __init__(self, groupmeAccessToken, groupId, message_id=None, **kwargs):
         self.args = kwargs
         self.groupId = groupId
+        self.message_id = message_id
         super(Like, self).__init__(groupmeAccessToken, 'POST')  
 
     def createUrl(self):
-        message_id = 0
-        for key, value in self.args.items():
-            if key == 'message_id':
-                message_id = value
-        return self.URL_BASE + '/messages/' + str(self.groupId) + '/' + str(message_id) + '/like' + self.TOKEN_QUERY_STRING
+        return self.URL_BASE + '/messages/' + str(self.groupId) + '/' + str(self.message_id) + '/like' + self.TOKEN_QUERY_STRING
 
     def makeCall(self):
         return super(Like, self).makeCall()
