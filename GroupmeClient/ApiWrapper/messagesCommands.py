@@ -11,27 +11,44 @@ class Get(Command):
         limit:      integer — Number of messages returned. Default is 20. Max is 100.
     '''
 
-    def __init__(self, groupmeAccessToken, groupId, **kwargs):
+    def __init__(self, groupmeAccessToken, groupId, before_id=None, since_id=None, after_id=None, limit=None, **kwargs):
         self.args = kwargs
         self.groupId = groupId
+        self.before_id = before_id
+        self.since_id = since_id
+        self.after_id = after_id
+        self.limit = limit
         super(Get, self).__init__(groupmeAccessToken, 'GET')   
 
     def createUrl(self):
         query_string = ''
-        for key, value in self.args.items():
-            if key == 'before_id':
-                query_string += '&before_id='
-                query_string += str(value)
-            elif key == 'since_id':
-                query_string += '&since_id='
-                query_string += str(value)
-            elif key == 'after_id':
-                query_string += '&after_id='
-                query_string += str(value)
-            elif key == 'limit':
-                query_string += '&limit='
-                query_string += str(value)
-        
+        if all(prop is None for prop in [self.before_id, self.since_id, self.after_id, self.limit]):
+            for key, value in self.args.items():
+                if key == 'before_id':
+                    query_string += '&before_id='
+                    query_string += str(value)
+                elif key == 'since_id':
+                    query_string += '&since_id='
+                    query_string += str(value)
+                elif key == 'after_id':
+                    query_string += '&after_id='
+                    query_string += str(value)
+                elif key == 'limit':
+                    query_string += '&limit='
+                    query_string += str(value)
+        if self.before_id is not None:
+            query_string += '&before_id='
+            query_string += str(self.before_id)
+        elif self.since_id is not None:
+            query_string += '&since_id='
+            query_string += str(self.since_id)
+        elif self.after_id is not None:
+            query_string += '&after_id='
+            query_string += str(self.after_id)
+        elif self.limit is not None:
+            query_string += '&limit='
+            query_string += str(self.limit)   
+    
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/messages' + self.TOKEN_QUERY_STRING + query_string
 
     def makeCall(self):
