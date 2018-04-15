@@ -48,6 +48,21 @@ class Add(Command):
     def makeCall(self):
         return super(Add, self).makeCall()
 
+    def prepareMemberObject(self, nickname=None, user_id=None, phone_number=None, email=None):
+        '''A helper method for preparing Member objects which can be passed as array members to the Add command'''
+        member = {}
+        if nickname is None:
+            raise Exception("Nickname is required to create Member object")
+        else:
+            member['nickname'] = nickname
+        if user_id is not None:
+            member['user_id'] = user_id
+        if phone_number is not None:
+            member['phone_number'] =  phone_number
+        if email is not None:
+            member['email'] = email
+        return member
+        
 
 class Remove(Command):
     '''
@@ -57,18 +72,16 @@ class Remove(Command):
         membership_id: string — Please note that this isn't the same as the user ID. In the members key in the group JSON, this is the id value, not the user_id.
     '''
 
-    def __init__(self, groupmeAccessToken, groupId, **kwargs):
+    def __init__(self, groupmeAccessToken, groupId, membership_id=None, **kwargs):
         self.args = kwargs
         self.groupId = groupId
+        self.membership_id = membership_id
         super(Remove, self).__init__(groupmeAccessToken, 'POST')   
     
-    def createUrl(self):
-        membership_id = 0
-        for key, value in self.args.items():
-            if key == 'membership_id':
-                membership_id = value
-        
-        url = self.URL_BASE + '/groups/' + str(self.groupId) + '/members/' + str(membership_id) + '/remove' + self.TOKEN_QUERY_STRING
+    def createUrl(self): 
+        if self.membership_id is None:
+            raise Exception('membership_id is required')       
+        url = self.URL_BASE + '/groups/' + str(self.groupId) + '/members/' + str(self.membership_id) + '/remove' + self.TOKEN_QUERY_STRING
         return url
     
     def makeCall(self):
@@ -82,22 +95,18 @@ class Update(Command):
         nickname: string - YOUR new nickname
     '''
 
-    def __init__(self, groupmeAccessToken, groupId, **kwargs):
+    def __init__(self, groupmeAccessToken, groupId, nickname=None, **kwargs):
         self.args = kwargs
         self.groupId = groupId
+        self.nickname = nickname
         super(Update, self).__init__(groupmeAccessToken, 'POST')   
 
     def createUrl(self):
         return self.URL_BASE + '/groups/' + str(self.groupId) + '/memberships/update' + self.TOKEN_QUERY_STRING
 
     def createLoad(self):
-        nickname = ''
-        for key, value in self.args.items():
-            if key == 'nickname':
-                nickname = value
-
         load = {}
-        load['membership'] =  {'nickname': nickname}
+        load['membership'] =  {'nickname': self.nickname}
         return load
 
     def makeCall(self):

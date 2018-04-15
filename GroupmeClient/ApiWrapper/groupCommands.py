@@ -7,19 +7,20 @@ class GetAllGroups(Command):
             per_page: integer — Define page size. Defaults to 10.
     '''
 
-    def __init__(self, groupmeAccessToken, **kwargs):
+    def __init__(self, groupmeAccessToken, page=None, per_page=None, **kwargs):
         self.args = kwargs
+        self.page = page
+        self.per_page = per_page
         super(GetAllGroups, self).__init__(groupmeAccessToken, 'GET')
     
     def createUrl(self):
-        page =  1
-        per_page = 10
-        for key, value in self.args.items():
-            if key == 'page':
-                page = value
-            elif key == 'per_page':
-                per_page = value
-        url = self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING +  '&page=' + str(page) + '&per_page=' + str(per_page)
+        page_default =  1
+        per_page_default = 10
+        if self.page is None:
+            self.page = page_default
+        if self.per_page is None:
+            self.per_page = per_page_default
+        url = self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING +  '&page=' + str(self.page) + '&per_page=' + str(self.per_page)
         return url
 
     def makeCall(self):
@@ -43,16 +44,13 @@ class Former(Command):
 class GetSingleGroup(Command):
     ''' Gets a single group by its id'''
 
-    def __init__(self, groupmeAccessToken, **kwargs):
+    def __init__(self, groupmeAccessToken, id=None, **kwargs):
         self.args = kwargs
+        self.id = id
         super(GetSingleGroup, self).__init__(groupmeAccessToken, 'GET')
     
     def createUrl(self):
-        id = 0
-        for key, value in self.args.items():
-            if key == 'id':
-                id = value
-        url = self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING + '&id=' + str(id)
+        url = self.URL_BASE + '/groups' + self.TOKEN_QUERY_STRING + '&id=' + str(self.id)
         return url
     
     def makeCall(self):
@@ -69,8 +67,12 @@ class Create(Command):
 
     ##201 expected response code
     
-    def __init__(self, groupmeAccessToken, **kwargs):
+    def __init__(self, groupmeAccessToken, name=None, description=None,  image_url=None, share=None, **kwargs):
         self.args = kwargs
+        self.name = name
+        self.description = description
+        self.image_url = image_url
+        self.share = share
         super(Create, self).__init__(groupmeAccessToken, 'POST')
 
     def createUrl(self):
@@ -79,16 +81,15 @@ class Create(Command):
     def createLoad(self):
         hasValidParam = False
         load = {}
-        for key, value in self.args.items():
-            if key == 'name':
-                load['name'] = value
-                hasValidParam = True
-            elif key == 'description':
-                load['description'] = value
-            elif key == 'image_url':
-                load['image_url'] = value
-            elif key == 'share':
-                load['share'] = value
+        if self.name is not None:
+            load['name'] = self.name
+            hasValidParam = True
+        if self.description is not None:
+            load['description'] = self.description
+        if self.image_url is not None:
+            load['image_url'] = self.image_url
+        if self.share is not None:
+            load['share'] = self.share
         if hasValidParam:
             return load
         else:
@@ -110,28 +111,28 @@ class Update(Command):
         Returns POST response
     '''
 
-    def __init__(self, groupmeAccessToken, **kwargs):
+    def __init__(self, groupmeAccessToken, id=None, name=None, description=None, image_url=None, share=None, **kwargs):
         self.args = kwargs
+        self.id = id
+        self.name = name
+        self.description = description
+        self.image_url = image_url
+        self.share = share
         super(Update, self).__init__(groupmeAccessToken, 'POST')
 
     def createUrl(self):
-        id = 0
-        for key, value in self.args.items():
-            if key == 'id':
-                id = value
-        return self.URL_BASE + '/groups/' + str(id) + '/update' + self.TOKEN_QUERY_STRING
+        return self.URL_BASE + '/groups/' + str(self.id) + '/update' + self.TOKEN_QUERY_STRING
 
     def createLoad(self):
         load = {}
-        for key, value in self.args.items():
-            if key == 'name':
-                load['name'] = value
-            elif key == 'description':
-                load['description'] = value
-            elif key == 'image_url':
-                load['image_url'] = value
-            elif key == 'share':
-                load['share'] = value
+        if self.name is not None:
+            load['name'] = self.name
+        if self.description is not None:
+            load['description'] = self.description
+        if self.image_url is not None:
+            load['image_url'] = self.image_url
+        if self.share is not None:
+            load['share'] = self.share
         return load
 
     def makeCall(self):
@@ -144,16 +145,13 @@ class Destroy(Command):
         HTTP POST
         Returns POST response'''
     
-    def __init__(self, groupmeAccessToken, **kwargs):
+    def __init__(self, groupmeAccessToken, id=None, **kwargs):
         self.args = kwargs
+        self.id = id
         super(Destroy, self).__init__(groupmeAccessToken, 'POST')
 
     def createUrl(self):
-        id = 0
-        for key, value in self.args.items():
-            if key  == 'id':
-                id = value
-        url = self.URL_BASE + '/groups/' + str(id) + '/destroy' + self.TOKEN_QUERY_STRING
+        url = self.URL_BASE + '/groups/' + str(self.id) + '/destroy' + self.TOKEN_QUERY_STRING
         return url
 
     def makeCall(self):
