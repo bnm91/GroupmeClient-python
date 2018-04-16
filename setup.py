@@ -4,7 +4,7 @@ setup(
   name = 'GroupmeClient',
   packages = ['GroupmeClient'],
   version = '0.1',
-  description = 'A python library for using GroupMe's API',
+  description = 'A python library for using GroupMes API',
   author = 'Nixon Ball',
   author_email = 'ball.nixonm@gmail.com',
   url = 'https://github.com/bnm91/GroupmeClient-python', 
