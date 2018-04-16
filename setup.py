@@ -11,4 +11,5 @@ setup(
   download_url = 'https://github.com/bnm91/GroupmeClient-python/archive/0.1.tar.gz', 
   keywords = ['GroupMe', 'API', 'client', 'python'], 
   classifiers = [],
+  install_requires=['requests']
 )
