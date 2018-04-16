@@ -8,7 +8,7 @@ setup(
   author = 'Nixon Ball',
   author_email = 'ball.nixonm@gmail.com',
   url = 'https://github.com/bnm91/GroupmeClient-python', 
-  download_url = 'https://github.com/bnm91/GroupmeClient-python/archive/master.zip', 
+  download_url = 'https://github.com/bnm91/GroupmeClient-python/archive/0.1.tar.gz', 
   keywords = ['GroupMe', 'API', 'client', 'python'], 
   classifiers = [],
 )
