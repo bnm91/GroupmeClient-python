@@ -250,7 +250,7 @@ GroupmeClient.ApiWrapper.membersCommands.Remove(accessToken, **kwargs).makeCall(
 
 ### Update
 Updates your member
-### Params
+#### Params
 nickname: string - YOUR new nickname
 ```
 kwargs = {'groupId': '1234567890', 'nickname':'Foo McBar'}
@@ -260,4 +260,20 @@ client_instance.makeCall('members', 'Update', **kwargs)
 ```
 kwargs = {'groupId': '1234567890', 'nickname':'Foo McBar'}
 GroupmeClient.ApiWrapper.membersCommands.Update(accessToken, **kwargs).makeCall()
+```
+
+
+## Users
+Commands related to User GroupMe objects
+
+The User is different than a Member in that it refers to the User of the Groupme API
+
+### Me
+Get details about the authenticated user
+```
+client_instance.makeCall('users', 'Me', **kwargs)
+```
+
+```
+GroupmeClient.ApiWrapper.userCommands.Me(accessToken, **kwargs).makeCall()
 ```
