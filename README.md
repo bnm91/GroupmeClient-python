@@ -181,12 +181,12 @@ type (string) - "mentions" required
 
 user_ids (array) - array of user ids of members being tagged
 ```
-kwargs = {'source_guid':'1234567890', 'text': 'Sample Text', 'attachments':[{'type':'image',  'url':'http://www.imageurl.com'}]}
+kwargs = {'groupId': '1234567890', 'source_guid':'1234567890', 'text': 'Sample Text', 'attachments':[{'type':'image',  'url':'http://www.imageurl.com'}]}
 client_instance.makeCall('messages', 'Like', **kwargs)
 ```
 
 ```
-kwargs = {'source_guid':'1234567890', 'text': 'Sample Text', 'attachments':[{'type':'image',  'url':'http://www.imageurl.com'}]}
+kwargs = {'groupId': '1234567890', 'source_guid':'1234567890', 'text': 'Sample Text', 'attachments':[{'type':'image',  'url':'http://www.imageurl.com'}]}
 GroupmeClient.ApiWrapper.messagesCommands.Like(accessToken, **kwargs).makeCall()
 ```
 
@@ -202,4 +202,62 @@ client_instance.makeCall('messages', 'Like', **kwargs)
 ```
 kwargs = {'groupId':'1234567890', 'message_id': '9876543210'}
 GroupmeClient.ApiWrapper.messagesCommands.Like(accessToken, **kwargs).makeCall()
+```
+
+## Members
+Commands related to Members GroupMe objects
+
+### Add
+Add a member the specified group
+NOTE: all message commands by nature require a specified group
+#### Params
+members: array - objects described below. nickname is required. You must use one of the following identifiers: user_id, phone_number, or email.
+
+*object*
+
+nickname (string) required
+
+user_id (string)
+
+phone_number (string)
+
+email (string)
+
+guid (string)
+```
+kwargs = {'groupId': '1234567890', 'members': [{'nickname': 'Foo McBar', 'phone_number': '5555555555'}]}
+client_instance.makeCall('members', 'Add', **kwargs)
+```
+
+```
+kwargs = {'groupId': '1234567890', 'members': [{'nickname': 'Foo McBar', 'phone_number': '5555555555'}]}
+GroupmeClient.ApiWrapper.membersCommands.Like(accessToken, **kwargs).makeCall()
+```
+
+### Remove
+Removes specified member
+#### Params
+membership_id: string — Please note that this isn't the same as the user ID. In the members key in the group JSON, this is the id value, not the user_id.
+```
+kwargs = {'groupId': '1234567890', 'membership_id':'9876543210'}
+client_instance.makeCall('members', 'Remove', **kwargs)
+```
+
+```
+kwargs = {'groupId': '1234567890', 'membership_id':'9876543210'}
+GroupmeClient.ApiWrapper.membersCommands.Remove(accessToken, **kwargs).makeCall()
+```
+
+### Update
+Updates your member
+### Params
+nickname: string - YOUR new nickname
+```
+kwargs = {'groupId': '1234567890', 'nickname':'Foo McBar'}
+client_instance.makeCall('members', 'Update', **kwargs)
+```
+
+```
+kwargs = {'groupId': '1234567890', 'nickname':'Foo McBar'}
+GroupmeClient.ApiWrapper.membersCommands.Update(accessToken, **kwargs).makeCall()
 ```
