@@ -2,8 +2,8 @@ from distutils.core import setup
 
 setup(
   name = 'GroupmeClient',
-  packages = find_packages(),
-  version = '0.1',
+  packages = ['GroupmeClient', 'GroupmeClient.ApiWrapper', 'GroupmeClient.Utilities'],
+  version = '0.1.1',
   description = 'A python library for using GroupMes API',
   author = 'Nixon Ball',
   author_email = 'ball.nixonm@gmail.com',
