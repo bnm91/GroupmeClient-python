@@ -9,6 +9,7 @@ example:
 client_instance = GroupmeClient.Client(accessToken)
 client_instance.makeCall('groups', 'Update', **kwargs)
 ```
+This documentation will show both usages for every command where applicable.
 
 ## Groups
 Commands related to Groups GroupMe objects
